@@ -22,8 +22,16 @@ public class Client_frame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField username;
-	private JTextField textField;
-
+	private JTextField scrittura;
+	private JComboBox comboBox;
+	private JButton btnEntra;
+	private JPanel Welcome;
+	private JPanel Chat;
+	private JList list;
+	private JButton Muta;
+	private	JScrollPane scrollPane;
+	private JButton Invia;
+	private JButton Esci;
 	
 	/**
 	 * Create the frame.
@@ -34,6 +42,7 @@ public class Client_frame extends JFrame {
 		}catch(Exception e){
 			System.out.println("Errore grafica: "+e.getMessage());
 		}
+		
 		setTitle("Bla Bla Chat");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 364);
@@ -46,7 +55,7 @@ public class Client_frame extends JFrame {
 		tabbedPane.setBounds(0, 0, 434, 326);
 		contentPane.add(tabbedPane);
 		
-		JPanel Welcome = new JPanel();
+		Welcome = new JPanel();
 		tabbedPane.addTab("Benvenuto", null, Welcome, null);
 		Welcome.setLayout(null);
 		
@@ -70,54 +79,138 @@ public class Client_frame extends JFrame {
 		lblInCheChat.setBounds(26, 158, 197, 14);
 		Welcome.add(lblInCheChat);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setBounds(251, 157, 168, 20);
 		Welcome.add(comboBox);
 		
-		JButton btnEntra = new JButton("ENTRA");
+		btnEntra = new JButton("ENTRA");
 		btnEntra.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnEntra.setBounds(174, 222, 89, 23);
 		Welcome.add(btnEntra);
 		
-		JPanel Chat = new JPanel();
+		Chat = new JPanel();
 		tabbedPane.addTab("Chat", null, Chat, null);
 		Chat.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(10, 221, 409, 20);
-		Chat.add(textField);
-		textField.setColumns(10);
+		scrittura = new JTextField();
+		scrittura.setBounds(10, 221, 409, 20);
+		Chat.add(scrittura);
+		scrittura.setColumns(10);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 36, 409, 174);
 		Chat.add(scrollPane);
 		
-		JList list = new JList();
+		list = new JList();
 		scrollPane.setViewportView(list);
 		
-		JButton btnNewButton = new JButton("Muta\r\n");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnNewButton.setBounds(42, 264, 89, 23);
-		Chat.add(btnNewButton);
+		Muta = new JButton("Muta\r\n");
+		Muta.setBounds(42, 264, 89, 23);
+		Chat.add(Muta);
 		
-		JButton btnInvia = new JButton("Invia");
-		btnInvia.setBounds(311, 264, 89, 23);
-		Chat.add(btnInvia);
+		Invia = new JButton("Invia");
+		Invia.setBounds(311, 264, 89, 23);
+		Chat.add(Invia);
 		
-		JButton btnEsci = new JButton("Esci");
-		btnEsci.setBounds(171, 264, 89, 23);
-		Chat.add(btnEsci);
+		Esci = new JButton("Esci");
+		Esci.setBounds(171, 264, 89, 23);
+		Chat.add(Esci);
 		
 		JLabel lblIniziaAChattare = new JLabel("INIZIA A CHATTARE CON I TUOI AMICI");
 		lblIniziaAChattare.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblIniziaAChattare.setBounds(73, 11, 376, 14);
 		Chat.add(lblIniziaAChattare);
 		
-		
-		
 		this.setVisible(true);
 	}
+
+	public JTextField getUsername() {
+		return username;
+	}
+
+	public void setUsername(JTextField username) {
+		this.username = username;
+	}
+
+	public JTextField getScrittura() {
+		return scrittura;
+	}
+
+	public void setScrittura(JTextField scrittura) {
+		this.scrittura = scrittura;
+	}
+
+	public JComboBox getComboBox() {
+		return comboBox;
+	}
+
+	public void setComboBox(JComboBox comboBox) {
+		this.comboBox = comboBox;
+	}
+
+	public JButton getBtnEntra() {
+		return btnEntra;
+	}
+
+	public void setBtnEntra(JButton btnEntra) {
+		this.btnEntra = btnEntra;
+	}
+
+	public JPanel getWelcome() {
+		return Welcome;
+	}
+
+	public void setWelcome(JPanel welcome) {
+		Welcome = welcome;
+	}
+
+	public JPanel getChat() {
+		return Chat;
+	}
+
+	public void setChat(JPanel chat) {
+		Chat = chat;
+	}
+
+	public JList getList() {
+		return list;
+	}
+
+	public void setList(JList list) {
+		this.list = list;
+	}
+
+	public JButton getMuta() {
+		return Muta;
+	}
+
+	public void setMuta(JButton muta) {
+		Muta = muta;
+	}
+
+	public JButton getInvia() {
+		return Invia;
+	}
+
+	public void setInvia(JButton invia) {
+		Invia = invia;
+	}
+
+	public JButton getEsci() {
+		return Esci;
+	}
+
+	public void setEsci(JButton esci) {
+		Esci = esci;
+	}
+
+	public JScrollPane getScrollPane() {
+		return scrollPane;
+	}
+
+	public void setScrollPane(JScrollPane scrollPane) {
+		this.scrollPane = scrollPane;
+	}
+	
+	
 }
