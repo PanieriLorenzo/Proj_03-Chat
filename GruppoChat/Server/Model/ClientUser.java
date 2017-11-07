@@ -2,11 +2,11 @@ package Model;
 
 import java.net.Socket;
 
-public class ClientPartecipanti {
+public class ClientUser {
 	private String nome;
 	private Socket s;
 	
-	public ClientPartecipanti(String nome, Socket s) {
+	public ClientUser(String nome, Socket s) {
 		super();
 		this.nome = nome;
 		this.s = s;
