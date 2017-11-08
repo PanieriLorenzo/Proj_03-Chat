@@ -40,4 +40,8 @@ public class Message {
 	public void clearRecipients(){
 		recipients.clear();
 	}
+	
+	public int arraySize(){
+		return recipients.size();
+	}
 }
