@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import UI.GUITheme;
+import UI.MaterialLookAndFeel;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -37,8 +41,9 @@ public class Client_frame extends JFrame {
 	 * Create the frame.
 	 */
 	public Client_frame() {
+		MaterialLookAndFeel ui = new MaterialLookAndFeel(GUITheme.LIGHT_THEME);
 		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			UIManager.setLookAndFeel(ui.getName());
 		}catch(Exception e){
 			System.out.println("Errore grafica: "+e.getMessage());
 		}
