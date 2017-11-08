@@ -3,23 +3,22 @@ package Model;
 import java.net.Socket;
 
 public class ClientUser {
-	private String nome;
+	private String name;
 	private Socket s;
-	private String room;
+	private Room room;
 	
-	public ClientUser(String nome, Socket s, String room) {
+	public ClientUser(String nome, Socket s) {
 		super();
-		this.nome = nome;
+		this.name = nome;
 		this.s = s;
-		this.room = room;
 	}
 
 	public String getNome() {
-		return nome;
+		return name;
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome;
+		this.name = nome;
 	}
 
 	public Socket getS() {
@@ -30,11 +29,11 @@ public class ClientUser {
 		this.s = s;
 	}
 
-	public String getRoom() {
+	public Room getRoom() {
 		return room;
 	}
 
-	public void setRoom(String room) {
+	public void setRoom(Room room) {
 		this.room = room;
 	}
 	

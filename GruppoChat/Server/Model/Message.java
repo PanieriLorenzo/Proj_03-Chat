@@ -6,7 +6,6 @@ public class Message {
 	private String msg;
 	private ClientUser sender;
 	private ArrayList<ClientUser> recipients;
-	private String room;
 	
 	public Message(String msg, ClientUser sender){
 		this.msg = msg;
@@ -41,14 +40,4 @@ public class Message {
 	public void clearRecipients(){
 		recipients.clear();
 	}
-
-	public String getRoom() {
-		return room;
-	}
-
-	public void setRoom(String room) {
-		this.room = room;
-	}
-	
-	
 }

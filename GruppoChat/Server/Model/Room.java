@@ -17,12 +17,24 @@ public class Room {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public ArrayList<ClientUser> getUsers() {
+	
+	public void addUser(ClientUser user){
+		users.add(user);
+	}
+	
+	public ClientUser getUser(int i){
+		return users.get(i);
+	}
+	
+	public ArrayList<ClientUser> getArray(){
 		return users;
 	}
-
-	public void setUsers(ArrayList<ClientUser> users) {
-		this.users = users;
+	
+	public void removeUser(ClientUser user){
+		for(int i=0; i<users.size(); i++){
+			if(users.get(i).getNome() == user.getNome()){
+				users.remove(i);
+			}
+		}
 	}
 }
