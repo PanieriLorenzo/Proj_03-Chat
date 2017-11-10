@@ -13,6 +13,9 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Server_frame extends JFrame implements WindowListener {
 
@@ -20,6 +23,8 @@ public class Server_frame extends JFrame implements WindowListener {
 	private JScrollPane scrollPane;
 	private JList list;
 	private DefaultListModel model;
+	private JButton btnAvvia;
+	private JButton btnChiudi;
 	
 
 	/**
@@ -48,6 +53,15 @@ public class Server_frame extends JFrame implements WindowListener {
 		
 		model = new DefaultListModel();
 		list.setModel(model);
+		
+		btnAvvia = new JButton("Avvia");
+		btnAvvia.setBounds(266, 78, 89, 23);
+		contentPane.add(btnAvvia);
+		
+		btnChiudi = new JButton("Chiudi");
+		btnChiudi.setEnabled(false);
+		btnChiudi.setBounds(266, 112, 89, 23);
+		contentPane.add(btnChiudi);
 		
 		this.setVisible(true);
 	}
@@ -113,6 +127,30 @@ public class Server_frame extends JFrame implements WindowListener {
 
 	public void setList(JList list) {
 		this.list = list;
+	}
+
+	public DefaultListModel getModel() {
+		return model;
+	}
+
+	public void setModel(DefaultListModel model) {
+		this.model = model;
+	}
+
+	public JButton getBtnAvvia() {
+		return btnAvvia;
+	}
+
+	public void setBtnAvvia(JButton btnAvvia) {
+		this.btnAvvia = btnAvvia;
+	}
+
+	public JButton getBtnChiudi() {
+		return btnChiudi;
+	}
+
+	public void setBtnChiudi(JButton btnChiudi) {
+		this.btnChiudi = btnChiudi;
 	}
 	
 	

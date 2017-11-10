@@ -32,7 +32,7 @@ public class Room {
 	
 	public void removeUser(ClientUser user){
 		for(int i=0; i<users.size(); i++){
-			if(users.get(i).getName() == user.getName()){
+			if(users.get(i).getNickname() == user.getNickname()){
 				users.remove(i);
 			}
 		}

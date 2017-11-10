@@ -3,30 +3,19 @@ package Model;
 import java.net.Socket;
 
 public class ClientUser {
-	private String name;
-	private Socket s;
+	private String nickname;
 	private Room room;
 	
-	public ClientUser(String nome, Socket s) {
-		super();
-		this.name = nome;
-		this.s = s;
+	public ClientUser(String nickname){
+		this.nickname = nickname;
 	}
 
-	public String getName() {
-		return name;
+	public String getNickname() {
+		return nickname;
 	}
 
-	public void setName(String nome) {
-		this.name = nome;
-	}
-
-	public Socket getS() {
-		return s;
-	}
-
-	public void setS(Socket s) {
-		this.s = s;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	public Room getRoom() {
@@ -36,6 +25,4 @@ public class ClientUser {
 	public void setRoom(Room room) {
 		this.room = room;
 	}
-	
-	
 }

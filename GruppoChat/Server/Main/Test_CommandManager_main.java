@@ -1,4 +1,5 @@
 //QUESTO E' UN TEST, NON CONINUATE IL SUO SVILUPPO E NON IMPLEMENTATELO
+/*
 package Main;
 
 import java.util.ArrayList;
@@ -15,9 +16,8 @@ public class Test_CommandManager_main {
 		room1.setName("Globale");
 		room2.setName("Privata");
 		for(int i=0; i<10; i++){
-			ClientUser userA = new ClientUser("a" + i, null);
-			ClientUser userB = new ClientUser("b" + i, null);
-			userA.setRoom(room1);
+			ClientUser userA = new ClientUser("a" + i);
+			ClientUser userB = new ClientUser("b" + i);
 			room1.addUser(userA);
 			userB.setRoom(room2);
 			room2.addUser(userB);
@@ -65,4 +65,4 @@ public class Test_CommandManager_main {
 
 	}
 
-}
+}*/
