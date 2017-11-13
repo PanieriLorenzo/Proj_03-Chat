@@ -8,6 +8,7 @@ public class ClientUser {
 	
 	public ClientUser(String nickname){
 		this.nickname = nickname;
+		this.room = null;
 	}
 
 	public String getNickname() {

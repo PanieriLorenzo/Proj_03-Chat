@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Message {
 	private boolean isSend;
+	private boolean isHandshake;
 	private boolean isCommand;
 	private boolean isConnect;
 	private ClientUser sender;
@@ -12,9 +13,8 @@ public class Message {
 	private ArrayList<ClientUser> recipients;
 	private String message;
 	
-	public Message(boolean isSend, boolean isConnect){
+	public Message(boolean isSend){
 		this.isSend = isSend;
-		this.isConnect = isConnect;
 	}
 	
 	public void toggleSend(){
@@ -33,9 +33,20 @@ public class Message {
 		return !isSend;
 	}
 	
+	public void toggleHanshake(){
+		this.isHandshake = true;
+		this.isCommand = false;
+		this.isConnect = false;
+	}
+	
+	public boolean isHandshake(){
+		return isHandshake;
+	}
+	
 	public void toggleCommand(){
 		this.isCommand = true;
 		this.isConnect = false;
+		this.isHandshake = false;
 	}
 	
 	public boolean isCommand(){
@@ -45,15 +56,17 @@ public class Message {
 	public void toggleMessage(){
 		this.isCommand = false;
 		this.isConnect = false;
+		this.isHandshake = false;
 	}
 	
 	public boolean isMessage(){
-		return !isCommand && !isConnect;
+		return !isCommand && !isConnect && !isHandshake;
 	}
 	
 	public void toggleConnect(){
 		this.isConnect = true;
 		this.isCommand = false;
+		this.isHandshake = false;
 	}
 	
 	public boolean isConnect(){
