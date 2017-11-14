@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="930.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="930.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
       <Pane prefHeight="522.0" prefWidth="930.0">
          <children>
@@ -28,11 +28,11 @@
                      <content>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <JFXTextField fx:id="txtNickname" layoutX="260.0" layoutY="103.0" prefHeight="39.0" prefWidth="411.0" promptText="Nickname" />
+                              <JFXTextField fx:id="txtNickname" focusColor="#00b2c9" layoutX="260.0" layoutY="103.0" prefHeight="39.0" prefWidth="411.0" promptText="Nickname" />
                               <Label layoutX="260.0" layoutY="56.0" prefHeight="34.0" prefWidth="198.0" text="Come ti vuoi chiamare?" textFill="#868686" />
                               <Label layoutX="260.0" layoutY="166.0" prefHeight="52.0" prefWidth="229.0" text="In che chat vuoi entrare?" textFill="#868686" />
-                              <JFXComboBox fx:id="cmbChat" layoutX="260.0" layoutY="231.0" prefHeight="31.0" prefWidth="416.0" />
-                              <JFXButton fx:id="btnJoin" layoutX="410.0" layoutY="360.0" onMouseClicked="#clickJoin" prefHeight="64.0" prefWidth="158.0" ripplerFill="#03f7ff" style="-fx-background-color: #81F7F3;" text="Entra" textFill="WHITE" />
+                              <JFXComboBox fx:id="cmbChat" focusColor="#00b2c9" layoutX="260.0" layoutY="231.0" prefHeight="31.0" prefWidth="416.0" />
+                              <JFXButton fx:id="btnJoin" layoutX="410.0" layoutY="360.0" onMouseClicked="#clickJoin" prefHeight="64.0" prefWidth="158.0" ripplerFill="WHITE" style="-fx-background-color: #00B2C9;" text="Entra" textFill="WHITE" />
                               <ImageView fitHeight="37.0" fitWidth="34.0" layoutX="197.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../Img/ic_account_box_black_48dp_2x.png" />
@@ -51,7 +51,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <JFXListView fx:id="list" onMouseClicked="#clickLista" prefHeight="348.0" prefWidth="930.0">
+                              <JFXListView fx:id="list" onMouseClicked="#clickLista" prefHeight="415.0" prefWidth="930.0">
                                  <contextMenu>
                                     <ContextMenu fx:id="menu">
                                       <items>
@@ -59,13 +59,12 @@
                                       </items>
                                     </ContextMenu>
                                  </contextMenu></JFXListView>
-                              <JFXButton fx:id="btnInvia" layoutX="790.0" layoutY="348.0" onMouseClicked="#clickInvia" prefHeight="140.0" prefWidth="141.0" ripplerFill="#00c3ff" style="-fx-background-color: #81F7F3;" text="Invia" textFill="WHITE" />
-                              <JFXTextField fx:id="txtMsg" alignment="TOP_LEFT" layoutY="348.0" onKeyPressed="#textInvio" prefHeight="141.0" prefWidth="790.0">
+                              <JFXButton fx:id="btnInvia" layoutX="790.0" layoutY="414.0" onMouseClicked="#clickInvia" prefHeight="74.0" prefWidth="141.0" ripplerFill="#ffffff00" style="-fx-background-color: #00B2C9;" text="Invia" textFill="WHITE" />
+                              <JFXTextField fx:id="txtMsg" alignment="TOP_LEFT" layoutY="414.0" onKeyPressed="#textInvio" prefHeight="75.0" prefWidth="790.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </JFXTextField>
-                              <JFXButton layoutX="369.0" layoutY="181.0" prefHeight="104.0" prefWidth="164.0" style="-fx-background-color: 100;" />
                            </children></AnchorPane>
                     </content>
                   </Tab>

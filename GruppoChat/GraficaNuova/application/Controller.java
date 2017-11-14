@@ -107,25 +107,25 @@ public class Controller implements Initializable {
 		}
 	}
 	
-	/*public void clickInvia() {
+	public void clickInvia() {
 
 		list.getItems().add("[You]: "+ txtMsg.getText());
 		txtMsg.setText("");
 		txtMsg.requestFocus();
-	}*/
+	}
 	
 	public void textInvio(KeyEvent ke)
     {
         if (ke.getCode().equals(KeyCode.ENTER))
         {
-           // clickInvia();
+           clickInvia();
         }
     }
 	
-	public void clickInvia() {
+	/*public void clickInvia() {
 		//TableCell c = new TableCell<>();
 		//tc.setCellValueFactory(new PropertyValueFactory<String, String>("email"));
 		t.getColumns().addAll(tc);
 		System.out.println("debuhg");
-	}
+	}*/
 }

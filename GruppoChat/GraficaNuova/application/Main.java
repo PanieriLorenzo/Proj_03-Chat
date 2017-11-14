@@ -15,7 +15,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("Prova.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("StileFinestra.fxml"));
 			Scene scene = new Scene(root,930,522);
 			scene.getStylesheets().add(getClass().getResource("application.css").toString());
 			primaryStage.setScene(scene);
