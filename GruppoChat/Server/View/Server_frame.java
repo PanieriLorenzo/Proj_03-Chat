@@ -17,7 +17,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Server_frame extends JFrame implements WindowListener {
+public class Server_frame extends JFrame{
 
 	private JPanel contentPane;
 	private JScrollPane scrollPane;
@@ -37,7 +37,6 @@ public class Server_frame extends JFrame implements WindowListener {
 			// TODO: handle exception
 		}
 		
-		this.addWindowListener(this);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -64,53 +63,6 @@ public class Server_frame extends JFrame implements WindowListener {
 		contentPane.add(btnChiudi);
 		
 		this.setVisible(true);
-	}
-
-	@Override
-	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowClosing(WindowEvent e) {
-		// TODO Auto-generated method stub
-		int i = JOptionPane.showConfirmDialog(null, "Vuoi veramente uscire?", "Uscita", JOptionPane.YES_NO_OPTION, 0);
-		if(i == JOptionPane.NO_OPTION){
-			this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		}else{
-			System.exit(0);
-		}
-	}
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public JScrollPane getScrollPane() {
@@ -152,6 +104,4 @@ public class Server_frame extends JFrame implements WindowListener {
 	public void setBtnChiudi(JButton btnChiudi) {
 		this.btnChiudi = btnChiudi;
 	}
-	
-	
 }

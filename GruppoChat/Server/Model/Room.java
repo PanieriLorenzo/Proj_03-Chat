@@ -6,8 +6,9 @@ public class Room {
 	private String name;
 	private ArrayList<ClientUser> users;
 	
-	public Room(){
+	public Room(String name){
 		users = new ArrayList<ClientUser>();
+		this.name = name;
 	}
 
 	public String getName() {

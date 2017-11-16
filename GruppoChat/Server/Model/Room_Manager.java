@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class Room_Manager {
 	private ArrayList<Room> rooms;
+	
+	public Room_Manager(){
+		rooms = new ArrayList<Room>();
+	}
 
 	public ArrayList<Room> getRooms() {
 		return rooms;

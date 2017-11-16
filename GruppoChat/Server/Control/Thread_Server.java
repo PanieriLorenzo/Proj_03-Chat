@@ -35,10 +35,12 @@ public class Thread_Server extends Thread{
 				receiveRawMSG = (new String(receivePacket.getData())).split(" ");*/
 				//TEST
 				receiveRawMSG = new String[1];
-				receiveRawMSG[1] = "HAND";
+				System.out.println("TRY> FOR> inizializzato receiveRawMSG");
+				receiveRawMSG[0] = "HAND";
+				System.out.println("TRY> FOR> impostata la prima parola di receiveRawMSG a HAND");
 				//FINE TEST
 				System.out.println("TRY> FOR> ricevuto pacchetto con indirizzo: " + tempAddress + "/" + tempPort);
-				System.out.println("\te messaggio: " + receiveRawMSG);
+				System.out.println("\te messaggio: " + receiveRawMSG[0]);
 				
 				if(receiveRawMSG[0].equals("HAND")){
 					System.out.println("TRY> FOR> HAND> Gnerazione handshake...");
@@ -64,7 +66,7 @@ public class Thread_Server extends Thread{
 					sendBuffer = sendRawMSG.toString().getBytes();
 //					sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, tempAddress, tempPort);
 					System.out.println("TRY> FOR> inviato pacchetto ad indirizzo: " + tempAddress + "/" + tempPort);
-					System.out.println("\te messaggio: " + sendRawMSG);
+					System.out.println("\te messaggio: " + sendRawMSG.toString());
 				}else if(message.isCommand()){
 					
 				}else if(message.isMessage()){
@@ -74,6 +76,7 @@ public class Thread_Server extends Thread{
 					throw new Exception();
 				}
 				System.out.println("TRY> FOR> Spedizione completata!");
+				System.exit(0);
 			}
 		}catch (Exception e){
 			System.out.println("ERRORE: Thread_Server");
