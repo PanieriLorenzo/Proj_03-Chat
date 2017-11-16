@@ -22,7 +22,7 @@ import javax.swing.JList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Client_frame extends JFrame {
+public class Client_Frame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField username;
@@ -40,7 +40,7 @@ public class Client_frame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Client_frame() {
+	public Client_Frame() {
 		MaterialLookAndFeel ui = new MaterialLookAndFeel(GUITheme.LIGHT_THEME);
 		try{
 			UIManager.setLookAndFeel(ui.getName());
