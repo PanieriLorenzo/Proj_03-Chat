@@ -39,9 +39,26 @@ public class Control_Client implements ActionListener{
 		f.getBtnEntra().addActionListener(this);
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		//roba
+//	@Override
+	public void actionPerformed(ActionEvent evt) {
+		if(evt.getSource() == f.getBtnEntra()){
+			try {
+				clientSocket = new DatagramSocket();
+				String nickname = f.getUsername().getText().toLowerCase();
+				if(nickname.contains(" ")){
+					//errore, reinserisci
+				}else{
+					String message = "CNCT " + nickname + " " + "#000000 " + (String)f.getComboBox().getSelectedItem();
+					clientSocket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, IPAddress, PORT));
+				}
+				clientSocket.close();
+				//lanciare il thread
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 	}
 }
 
