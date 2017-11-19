@@ -38,11 +38,6 @@ public class VECCHIO_Control implements ActionListener{
 			f.getBtnChiudi().setEnabled(false);	
 			
 			f.getBtnAvvia().setEnabled(true);
-		}
-		
+		}	
 	}
-	
-	
-	
-
 }

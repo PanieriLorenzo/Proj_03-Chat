@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import Model.ClientUser;
 import Model.Message;
+import Model.Room;
 
 public class Thread_Server extends Thread{
 	@Override
@@ -17,7 +18,7 @@ public class Thread_Server extends Thread{
 		DatagramPacket receivePacket;
 		DatagramPacket sendPacket;
 		String[] receiveRawMSG;
-		StringBuilder sendRawMSG = new StringBuilder();
+		StringBuilder sendRawMSG; 
 		Message message = null;
 		InetAddress tempAddress = null;
 		int tempPort = 0;
@@ -49,6 +50,25 @@ public class Thread_Server extends Thread{
 					message.setMessage(ThreadAttributes_Server.manager.toString());
 					System.out.println("TRY> FOR> HAND> Generato sendMSG con messaggio: " + ThreadAttributes_Server.manager.toString());
 				}else if(receiveRawMSG[0].trim().equals("CNCT")){
+					System.out.println("TRY> FOR> HAND> Gnerazione connect...");
+					message = new Message(true);
+					message.toggleConnect();
+					Room tempRoom = ThreadAttributes_Server.manager.search(receiveRawMSG[3].trim());
+					ClientUser tempUser = new ClientUser(receiveRawMSG[1].trim());
+					if(tempRoom == null) {
+						tempRoom = new Room(receiveRawMSG[3].trim());
+						tempUser.setRoom(tempRoom);
+						tempRoom.addUser(tempUser);
+						ThreadAttributes_Server.manager.addRoom(tempRoom);
+						message.setMessage("CNCT true");
+					}else{
+						if(tempRoom.contains(tempUser)) {
+							message.setMessage("CNCT false");
+						}else{
+							ThreadAttributes_Server.manager.search(receiveRawMSG[3].trim()).addUser(tempUser);
+							message.setMessage("CNCT true");
+						}
+					}
 					
 				}else if(receiveRawMSG[0].trim().equals("MESG")){
 					
@@ -61,7 +81,18 @@ public class Thread_Server extends Thread{
 				System.out.println("TRY> FOR> Spedizione...");
 				if(message.isHandshake()){
 					System.out.println("TRY> FOR> HAND> Spedizione handshake...");
+					sendRawMSG = new StringBuilder();
 					sendRawMSG.append("HAND ");
+					sendRawMSG.append(message.getMessage());
+					sendBuffer = sendRawMSG.toString().getBytes();
+					sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, tempAddress, tempPort);
+					serverSocket.send(sendPacket);
+					System.out.println("TRY> FOR> inviato pacchetto ad indirizzo: " + tempAddress + "/" + tempPort);
+					System.out.println("\te messaggio: " + sendRawMSG.toString());
+					sendRawMSG = null;
+				}else if(message.isConnect()){
+					System.out.println("TRY> FOR> CNCT> Spedizione connect...");
+					sendRawMSG = new StringBuilder();
 					sendRawMSG.append(message.getMessage());
 					sendBuffer = sendRawMSG.toString().getBytes();
 					sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, tempAddress, tempPort);

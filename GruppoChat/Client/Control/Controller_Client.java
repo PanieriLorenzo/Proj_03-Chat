@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.concurrent.CountDownLatch;
 import java.io.File;
 import java.lang.reflect.Array;
 
@@ -15,6 +16,8 @@ import org.omg.CORBA.INITIALIZE;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -98,6 +101,9 @@ public class Controller_Client implements Initializable {
     String nick = null;
     Color colore = Color.web("#0000FF");
 	
+    //ATTRIBUTI THREAD:
+    Service<Void> service;
+    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//HANDSHAKE:
@@ -151,6 +157,21 @@ public class Controller_Client implements Initializable {
             }
         });
 		Platform.runLater(()->txtNickname.requestFocus());
+		
+		//INIT THREAD:
+		service = new Service<Void>() {
+	        @Override
+	        protected Task<Void> createTask() {
+	            return new Task<Void>() {
+	                @Override
+	                protected Void call() throws Exception {
+	                    
+	                    
+	                    return null;
+	                }
+	            };
+	        }
+	    };
 	}
 	
 	public void clickJoin() {
@@ -169,23 +190,30 @@ public class Controller_Client implements Initializable {
 		}
 		
 		if(ok) {
-/*			nick = nick.toLowerCase();
+			nick = nick.toLowerCase();
 			try {
 				//SPEDIZIONE
 				clientSocket = new DatagramSocket();
 				String message = "CNCT " + nick + " " + "#000000 " + (String)cmbChat.getSelectionModel().getSelectedItem();
-				clientSocket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, IPAddress, PORT));
+				clientSocket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, IPAddress, SERVER_PORT));
 				//RICEZIONE
 				DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
 				clientSocket.receive(receivePacket);
 				receiveMSG = new String(receivePacket.getData(), 0, receivePacket.getLength()).split(" ");
+				if(receiveMSG[1].trim().equals("false")) {
+					ok = false;
+					System.out.println("ALERT: nickname non disponibile");
+					Alert alert = new Alert(AlertType.ERROR, "Il nickname non è disponibile!" , ButtonType.YES);
+					alert.showAndWait();
+				}
 				clientSocket.close();
-				//lanciare il thread
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}*/
-			
+			}
+		}
+		if(ok) {
+			service.start();
 			tabChat.setDisable(false);
 			tabPane.getSelectionModel().select(1);
 			txtMsg.requestFocus();

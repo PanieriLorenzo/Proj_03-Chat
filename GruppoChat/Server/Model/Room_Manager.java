@@ -29,4 +29,14 @@ public class Room_Manager {
 		ret.deleteCharAt(ret.length()-1);
 		return ret.toString();
 	}
+
+	public Room search(String room) {
+		Room ret = null;
+		for(int i=0; i<rooms.size(); i++) {
+			if(rooms.get(i).toString() == room) {
+				ret = rooms.get(i);
+			}
+		}
+		return ret;
+	}
 }

@@ -33,7 +33,7 @@ public class Room {
 	
 	public void removeUser(ClientUser user){
 		for(int i=0; i<users.size(); i++){
-			if(users.get(i).getNickname() == user.getNickname()){
+			if(users.get(i).getNickname().equals(user.getNickname())){
 				users.remove(i);
 			}
 		}
@@ -41,5 +41,14 @@ public class Room {
 	
 	public String toString(){
 		return name;
+	}
+
+	public boolean contains(ClientUser user) {
+		for(int i=0; i<users.size(); i++){
+			if(users.get(i).getNickname().equals(user.getNickname())){
+				return true;
+			}
+		}
+		return false;
 	}
 }
