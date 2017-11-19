@@ -6,6 +6,6 @@ import Model.Room_Manager;
 
 public class ThreadAttributes_Server {
 	public static final ClientUser NEW_USER = new ClientUser("NEW_USER");
-	public static int port;
+	public static final int port = 9999;
 	public static Room_Manager manager;
 }

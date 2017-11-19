@@ -1,0 +1,48 @@
+#lv .list-cell {
+    -fx-font-size: 18;
+}
+
+.jfx-tab-pane
+{
+-fx-padding: 1px;
+-fx-background-color: #D41800, -fx-control-inner-background;
+-fx-background-insets: 0, 1;
+}
+
+.jfx-tab-pane .headers-region
+{
+-fx-background-color: #D41800;
+}
+
+.jfx-tab-pane .tab-header-background
+{
+-fx-background-color: #D41800;
+}
+
+.jfx-tab-pane .tab-header-area .jfx-rippler
+{
+-jfx-rippler-fill : WHITE;
+}
+
+.jfx-tab-pane .tab-header-area .tab-selected-line{
+-fx-background-color: white;
+}
+
+.list-view {
+    -fx-selection-bar: #D41800 ;
+    -fx-border-color: #D41800;
+}
+
+.jfx-rippler {
+    -jfx-rippler-fill: WHITE;
+}
+
+
+
+.combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover 
+{
+    -fx-background: -fx-accent;
+    -fx-background-color: -fx-selection-bar;
+    -fx-text-fill: -fx-selection-bar-text;
+}
+

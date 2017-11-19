@@ -7,15 +7,16 @@ import Model.Room;
 import Model.Room_Manager;
 import View.Server_frame;
 
-public class Control implements ActionListener{
+public class VECCHIO_Control implements ActionListener{
 	Server_frame f;
 	Room_Manager r;
 	
-	public Control(){
+	public VECCHIO_Control(){
 		this.f = new Server_frame();
 		this.r = new Room_Manager();
 		
 		r.addRoom(new Room("Generale"));
+		r.addRoom(new Room("Test"));
 		
 		f.getBtnAvvia().addActionListener(this);
 		f.getBtnChiudi().addActionListener(this);
