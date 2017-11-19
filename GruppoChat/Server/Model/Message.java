@@ -15,6 +15,7 @@ public class Message {
 	
 	public Message(boolean isSend){
 		this.isSend = isSend;
+		recipients = new ArrayList<ClientUser>();
 	}
 	
 	public void toggleSend(){
@@ -103,6 +104,10 @@ public class Message {
 
 	public void setRecipients(ArrayList<ClientUser> recipients) {
 		this.recipients = recipients;
+	}
+	
+	public void addRecipient(ClientUser user) {
+		recipients.add(user);
 	}
 
 	public String getMessage() {

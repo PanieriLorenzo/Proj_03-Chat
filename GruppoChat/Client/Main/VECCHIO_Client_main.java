@@ -1,10 +1,10 @@
 package Main;
 
-import Control.Control_Client;
+import Control.VECCHIO_Control_Client;
 import View.Client_Frame;
 
 public class VECCHIO_Client_main {
 	public static void main(String[] args){
-		Control_Client c = new Control_Client();
+		VECCHIO_Control_Client c = new VECCHIO_Control_Client();
 	}
 }

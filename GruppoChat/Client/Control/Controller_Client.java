@@ -166,7 +166,6 @@ public class Controller_Client implements Initializable {
 	                @Override
 	                protected Void call() throws Exception {
 	                    
-	                    
 	                    return null;
 	                }
 	            };
@@ -180,12 +179,12 @@ public class Controller_Client implements Initializable {
 		if(nick.equals("")){
 			ok = false;
 			System.out.println("ALERT: nickname vuoto");
-			Alert alert = new Alert(AlertType.ERROR, "Il nickname non può essere vuoto!" , ButtonType.YES);
+			Alert alert = new Alert(AlertType.ERROR, "Il nickname non può essere vuoto!" , ButtonType.OK);
 			alert.showAndWait();
 		}else if(nick.contains(" ")){
 			ok = false;
 			System.out.println("ALERT: nickname contiene spazi");
-			Alert alert = new Alert(AlertType.ERROR, "Il nickname non può contenere spazi!" , ButtonType.YES);
+			Alert alert = new Alert(AlertType.ERROR, "Il nickname non può contenere spazi!" , ButtonType.OK);
 			alert.showAndWait();
 		}
 		
@@ -203,7 +202,7 @@ public class Controller_Client implements Initializable {
 				if(receiveMSG[1].trim().equals("false")) {
 					ok = false;
 					System.out.println("ALERT: nickname non disponibile");
-					Alert alert = new Alert(AlertType.ERROR, "Il nickname non è disponibile!" , ButtonType.YES);
+					Alert alert = new Alert(AlertType.ERROR, "Il nickname non è disponibile!" , ButtonType.OK);
 					alert.showAndWait();
 				}
 				clientSocket.close();
@@ -270,13 +269,21 @@ public class Controller_Client implements Initializable {
 		if(txtMsg.getText().equals("")) {
 			txtMsg.requestFocus();
 		}else {
-
+			try {
+				clientSocket = new DatagramSocket();
+				String message = "MESG Generale lol #000000 tua madre";
+				clientSocket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, IPAddress, SERVER_PORT));
+			}catch (Exception e) {
+				
+			}
 			list.getItems().add("[You]: "+ aCapoAuto(txtMsg.getText()));
 			txtMsg.setText("");
 			txtMsg.requestFocus();
 			list.scrollTo(list.getItems().size());
 			suona(0);
 		}
+		
+		
 	}
 	
 	public void textInvio(KeyEvent ke)

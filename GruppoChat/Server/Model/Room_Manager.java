@@ -33,7 +33,7 @@ public class Room_Manager {
 	public Room search(String room) {
 		Room ret = null;
 		for(int i=0; i<rooms.size(); i++) {
-			if(rooms.get(i).toString() == room) {
+			if(rooms.get(i).toString().equals(room)) {
 				ret = rooms.get(i);
 			}
 		}

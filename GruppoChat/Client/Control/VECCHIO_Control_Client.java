@@ -10,7 +10,7 @@ import java.net.SocketException;
 
 import View.Client_Frame;
 
-public class Control_Client implements ActionListener{
+public class VECCHIO_Control_Client implements ActionListener{
 	private Client_Frame f;
 	private DatagramSocket clientSocket;
 	private InetAddress IPAddress;
@@ -18,7 +18,7 @@ public class Control_Client implements ActionListener{
 	private byte[] sendBuffer = new byte[1024];
 	private byte[] receiveBuffer = new byte[1024];
 	private String[] receiveMSG;
-	public Control_Client(){
+	public VECCHIO_Control_Client(){
 		try {
 			IPAddress = InetAddress.getByName("localhost");
 			//SPEDIZIONE

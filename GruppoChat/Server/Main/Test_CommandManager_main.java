@@ -1,5 +1,5 @@
 //QUESTO E' UN TEST, NON CONINUATE IL SUO SVILUPPO E NON IMPLEMENTATELO
-/*
+
 package Main;
 
 import java.util.ArrayList;
@@ -35,20 +35,21 @@ public class Test_CommandManager_main {
 		ArrayList<ClientUser> recipients = room.getArray();
 		for(int i=0; i<recipients.size(); i++){
 			msg.addRecipient(recipients.get(i));
+			//togliere il mittente
 		}
 		
 			//Step 2: individua comandi
-		String temp = msg.getMsg();
+		String temp = msg.getMessage();
 		if(temp.charAt(0) == '/'){
 			if(temp.equals("/test")){
-				msg.setMsg(msg.getSender().getName() + ": TEST!!!");
+				msg.setMessage(msg.getSender().getNickname() + ": TEST!!!");
 			}else{
-				msg.setMsg("LISTA DI COMANDI:\n/help - mostra questo elenco\n/test - testa i comandi");
-				msg.clearRecipients();
+				msg.setMessage("LISTA DI COMANDI:\n/help - mostra questo elenco\n/test - testa i comandi");
+				msg.setRecipients(new ArrayList<ClientUser>());
 				msg.addRecipient(msg.getSender());
 			}
 		}else{
-			msg.setMsg(msg.getSender().getName() + ": " + msg.getMsg());
+			msg.setMessage(msg.getSender().getNickname() + ": " + msg.getMsg());
 		}
 		
 			//Step 3: character stuffing (per ora no)
@@ -65,4 +66,4 @@ public class Test_CommandManager_main {
 
 	}
 
-}*/
+}

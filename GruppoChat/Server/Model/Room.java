@@ -51,4 +51,20 @@ public class Room {
 		}
 		return false;
 	}
+	
+	public ClientUser search(String user) {
+		ClientUser ret = null;
+		for(int i=0; i<users.size(); i++){
+			if(users.get(i).getNickname().equals(user)){
+				ret = users.get(i);
+			}
+		}
+		return ret;
+	}
+	
+	public void printAll() {
+		for(int i=0; i<users.size(); i++) {
+			System.out.println(users.get(i));
+		}
+	}
 }

@@ -27,8 +27,8 @@ public class VECCHIO_Control implements ActionListener{
 		if(evt.getSource() == f.getBtnAvvia()){
 			System.out.println("Premuto btnAvvia");
 			f.getBtnAvvia().setEnabled(false);
-			Thread_Server thread = new Thread_Server();
-			ThreadAttributes_Server.manager = r;
+			VECCHIO_Thread_Server thread = new VECCHIO_Thread_Server();
+			VECCHIO_ThreadAttributes_Server.manager = r;
 			System.out.println("Inizializzato il thread");
 			thread.start();
 			System.out.println("Avviato il thread");

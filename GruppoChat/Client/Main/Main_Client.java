@@ -32,6 +32,8 @@ public class Main_Client extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.getIcons().add(new Image(Main_Client.class.getResourceAsStream( "../Img/logo.png" )));
 			primaryStage.setTitle("Bla Bla Chat");
+			primaryStage.setResizable(false);
+			primaryStage.sizeToScene();
 			primaryStage.show();
 			Platform.setImplicitExit(false);
 

@@ -9,7 +9,7 @@ import Model.ClientUser;
 import Model.Message;
 import Model.Room;
 
-public class Thread_Server extends Thread{
+public class VECCHIO_Thread_Server extends Thread{
 	@Override
 	public void run() {
 		System.out.println("Thread_Server avviato");
@@ -25,8 +25,8 @@ public class Thread_Server extends Thread{
 		System.out.println("Variabili inizializzate");
 		
 		try{
-			DatagramSocket serverSocket = new DatagramSocket(ThreadAttributes_Server.port);
-			System.out.println("TRY> serverSocket creato on porta: " + ThreadAttributes_Server.port);
+			DatagramSocket serverSocket = new DatagramSocket(VECCHIO_ThreadAttributes_Server.port);
+			System.out.println("TRY> serverSocket creato on porta: " + VECCHIO_ThreadAttributes_Server.port);
 			for(;;){
 				System.out.println("TRY> FOR> Ricezione...");
 				receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
@@ -47,25 +47,25 @@ public class Thread_Server extends Thread{
 					System.out.println("TRY> FOR> HAND> Gnerazione handshake...");
 					message = new Message(true);
 					message.toggleHanshake();
-					message.setMessage(ThreadAttributes_Server.manager.toString());
-					System.out.println("TRY> FOR> HAND> Generato sendMSG con messaggio: " + ThreadAttributes_Server.manager.toString());
+					message.setMessage(VECCHIO_ThreadAttributes_Server.manager.toString());
+					System.out.println("TRY> FOR> HAND> Generato sendMSG con messaggio: " + VECCHIO_ThreadAttributes_Server.manager.toString());
 				}else if(receiveRawMSG[0].trim().equals("CNCT")){
 					System.out.println("TRY> FOR> HAND> Gnerazione connect...");
 					message = new Message(true);
 					message.toggleConnect();
-					Room tempRoom = ThreadAttributes_Server.manager.search(receiveRawMSG[3].trim());
+					Room tempRoom = VECCHIO_ThreadAttributes_Server.manager.search(receiveRawMSG[3].trim());
 					ClientUser tempUser = new ClientUser(receiveRawMSG[1].trim());
 					if(tempRoom == null) {
 						tempRoom = new Room(receiveRawMSG[3].trim());
 						tempUser.setRoom(tempRoom);
 						tempRoom.addUser(tempUser);
-						ThreadAttributes_Server.manager.addRoom(tempRoom);
+						VECCHIO_ThreadAttributes_Server.manager.addRoom(tempRoom);
 						message.setMessage("CNCT true");
 					}else{
 						if(tempRoom.contains(tempUser)) {
 							message.setMessage("CNCT false");
 						}else{
-							ThreadAttributes_Server.manager.search(receiveRawMSG[3].trim()).addUser(tempUser);
+							VECCHIO_ThreadAttributes_Server.manager.search(receiveRawMSG[3].trim()).addUser(tempUser);
 							message.setMessage("CNCT true");
 						}
 					}
