@@ -36,8 +36,18 @@ public class Main_Client extends Application {
 			primaryStage.sizeToScene();
 			primaryStage.show();
 			Platform.setImplicitExit(false);
-
+			
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent event) {
+
+                    // consume event
+                    event.consume();
+
+                }
+            });;
+			
+/*			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			    @Override
 			    public void handle(WindowEvent event) {
 			    	Alert closeConfirmation = new Alert(
@@ -61,7 +71,7 @@ public class Main_Client extends Application {
 			        	System.exit(0);
 			        }
 			    }
-			});
+			});*/
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

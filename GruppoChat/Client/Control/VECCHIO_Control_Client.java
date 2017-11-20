@@ -8,10 +8,10 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
 
-import View.Client_Frame;
+import View.VECCHIO_Client_Frame;
 
 public class VECCHIO_Control_Client implements ActionListener{
-	private Client_Frame f;
+	private VECCHIO_Client_Frame f;
 	private DatagramSocket clientSocket;
 	private InetAddress IPAddress;
 	private final int PORT = 9999;
@@ -35,7 +35,7 @@ public class VECCHIO_Control_Client implements ActionListener{
 			e.printStackTrace();
 		}
 		//caricare sulla combo box
-		f = new Client_Frame();
+		f = new VECCHIO_Client_Frame();
 		f.getBtnEntra().addActionListener(this);
 	}
 	

@@ -8,7 +8,7 @@ import Model.ClientUser;
 import Model.Message;
 import Model.Room;
 
-public class Test_CommandManager_main {
+public class VECCHIO_Test_CommandManager_main {
 	private static final String MESSAGGIO = "/lel";	//MODIFICA
 
 	public static void main(String[] args) {

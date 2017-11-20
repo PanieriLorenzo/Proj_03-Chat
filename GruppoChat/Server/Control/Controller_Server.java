@@ -92,6 +92,7 @@ public class Controller_Server implements Initializable{
 					@Override
 					protected Void call() throws Exception {
 						System.out.println("Thread_Server avviato");
+						String[] colors = {"#18206f","#376996","#d41800","#353535","#86b541"};
 						byte[] receiveBuffer = new byte[1024];
 						byte[] sendBuffer = new byte[1024];
 						DatagramPacket receivePacket;
@@ -139,6 +140,7 @@ public class Controller_Server implements Initializable{
 									tempUser.setRoom(tempRoom);
 									tempUser.setAddress(tempAddress);
 									tempUser.setPort(tempPort);
+									tempUser.setColor(colors[((int)Math.random()*1000)%5]);
 									if(tempRoom == null) {
 										tempRoom = new Room(receiveRawMSG[3].trim());
 										tempUser.setRoom(tempRoom);
@@ -204,17 +206,28 @@ public class Controller_Server implements Initializable{
 										}else if(receiveRawMSG[4].trim().equals("/whisper")) {
 											//WHISPER:
 											ClientUser tempUser2 = tempRoom.search(receiveRawMSG[5].trim());
+											StringBuilder tempMSG = new StringBuilder();
+											for(int i=6; i<receiveRawMSG.length;i++) {
+												tempMSG.append(receiveRawMSG[i].trim() + " ");
+											}
 											if(tempUser2 != null) {
 												ArrayList<ClientUser> tempArray = new ArrayList<ClientUser>();
 												tempArray.add(tempUser2);
 												message.setRecipients(tempArray);
-												message.setMessage("[WHISPER/" + tempUser +"]: " + "prova");
+												message.setMessage("[WHISPER/" + tempUser +"]: " + tempMSG);
 											}else {
 												ArrayList<ClientUser> tempArray = new ArrayList<ClientUser>();
 												tempArray.add(tempUser);
 												message.setRecipients(tempArray);
 												message.setMessage("[SERVER-BOT]: Utente non trovato");
 											}
+										}else if(receiveRawMSG[4].trim().equals("/exit")) {
+											//EXIT:
+											message.toggleExit();
+											ArrayList<ClientUser> tempArray = new ArrayList<ClientUser>();
+											tempArray.add(tempUser);
+											message.setRecipients(tempArray);
+											message.setRoom(tempRoom);
 										}else {
 											//HELP:
 											ArrayList<ClientUser> tempArray = new ArrayList<ClientUser>();
@@ -226,13 +239,12 @@ public class Controller_Server implements Initializable{
 													+ "\t/whisper [nome_utente]  -  invia un messaggio privato all'utente specificato\n"
 													+ "\t/exit  -  esce dalla stanza corrente");
 										}
-										//~§r;
 									}else {
 										//MESSAGGIO
 										message.toggleMessage();
 										message.setRoom(tempRoom);
 										message.setSender(tempUser);
-										message.setColor(receiveRawMSG[3].trim());
+										message.setColor(tempUser.getColor());
 										StringBuilder tempMSG = new StringBuilder();
 										for(int i=4; i<receiveRawMSG.length;i++) {
 											tempMSG.append(receiveRawMSG[i].trim() + " ");
@@ -304,6 +316,25 @@ public class Controller_Server implements Initializable{
 											System.out.println("TRY> FOR> inviato pacchetto ad indirizzo: " + message.getRoom().getUser(i).getAddress() + "/" + (message.getRoom().getUser(i).getPort()-20000));
 											System.out.println("\te messaggio: " + sendRawMSG.toString());
 										}
+									}
+								}else if(message.isExit()){
+									System.out.println("TRY> FOR> EXIT> Spedizione exit...");
+									sendBuffer = "EXIT".getBytes();
+									//sendToAll(message.getRoom(), sendBuffer);
+									message.getRecipients().get(0).debugPrint();
+									sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, message.getRecipients().get(0).getAddress(), message.getRecipients().get(0).getPort()-20000);
+									System.out.println("Creato pacchetto con indirizzo: " + message.getRecipients().get(0).getAddress() + " e port: " + (message.getRecipients().get(0).getPort()-20000));
+									System.out.println("\te messaggio: " + "EXIT");
+									serverSocket.send(sendPacket);
+									System.out.println("TRY> FOR> inviato pacchetto ad indirizzo: " + message.getRecipients().get(0).getAddress() + "/" + (message.getRecipients().get(0).getPort()-20000));
+									System.out.println("\te messaggio: " + "EXIT");
+									message.getRoom().removeUser(message.getRecipients().get(0));
+									message.getRoom().printAll();
+									String exploitTempRoom = message.getRoom().toString();
+									String exploitTempUser = message.getRecipients().get(0).toString();
+									Platform.runLater(()->lista.getItems().add("["+ exploitTempUser + "] uscito da [" + exploitTempRoom + "]"));
+									if(!message.getRoom().getName().equals("Generale") && message.getRoom().getArray().size()==0) {
+										manager.removeRoom(message.getRoom().toString());
 									}
 								}else{
 									System.out.println("Errore: Header messaggio errato/corrotto");

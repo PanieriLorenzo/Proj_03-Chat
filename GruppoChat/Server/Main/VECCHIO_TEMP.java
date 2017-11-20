@@ -47,7 +47,7 @@ class Client {
 
 SERVER:
 
-package it.fabiobiscaro.datagram;
+package Main;
 
 import java.io.*;
 import java.net.*;

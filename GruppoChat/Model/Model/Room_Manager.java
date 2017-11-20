@@ -39,4 +39,12 @@ public class Room_Manager {
 		}
 		return ret;
 	}
+
+	public void removeRoom(String room) {
+		for(int i=0; i<rooms.size(); i++) {
+			if(rooms.get(i).toString().equals(room)) {
+				rooms.remove(i);
+			}
+		}
+	}
 }

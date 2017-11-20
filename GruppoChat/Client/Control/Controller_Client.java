@@ -106,7 +106,7 @@ public class Controller_Client implements Initializable {
 	final AudioClip sMatematica_veloce = new AudioClip(this.getClass().getResource("../Sound/quick_maths.mp3").toExternalForm());
 	
     String nick = null;
-    Color colore = Color.web("#0000FF");
+    Color colore = Color.web("#000000");
     String room = null;
 	
     //ATTRIBUTI THREAD:
@@ -176,6 +176,7 @@ public class Controller_Client implements Initializable {
 	            return new Task<Void>() {
 	                @Override
 	                protected Void call() throws Exception {
+	                	boolean running = true;
 	                	System.out.println("Thread_Server avviato");
 						byte[] receiveBuffer = new byte[1024];
 						DatagramPacket receivePacket;
@@ -185,7 +186,7 @@ public class Controller_Client implements Initializable {
 						try{
 							DatagramSocket clientSocket = new DatagramSocket(clientPort-20000);
 							System.out.println("TRY> clientSocket creato on porta: " + (clientPort-20000));
-							for(;;){
+							while(running){
 								System.out.println("TRY> FOR> Ricezione...");
 								receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
 								System.out.println("a");
@@ -205,6 +206,7 @@ public class Controller_Client implements Initializable {
 										tempMSG.append(receiveRawMSG[i].trim() + " ");
 									}
 									String exploitTempNick = receiveRawMSG[1].trim();
+									colore = Color.web(receiveRawMSG[2].trim());
 									Platform.runLater(()-> list.getItems().add("[" + exploitTempNick + "]: "+ aCapoAuto(tempMSG.toString())));
 									Platform.runLater(()-> list.scrollTo(list.getItems().size()));
 									suona(1);
@@ -223,7 +225,7 @@ public class Controller_Client implements Initializable {
 										suona(1);
 									}
 								}else if(receiveRawMSG[0].trim().equals("EXIT")) {
-									//roba
+									running = false;
 								}else{
 									System.out.println("Errore: Header messaggio errato/corrotto");
 									throw new Exception();
@@ -235,6 +237,7 @@ public class Controller_Client implements Initializable {
 							System.out.println("ERRORE: Thread_Client");
 							e.printStackTrace();
 						}
+						System.exit(0);
 						return null;
 	                }
 	            };
@@ -299,6 +302,7 @@ public class Controller_Client implements Initializable {
 		}
 		if(ok && okStanza) {
 			service.start();
+			
 			tabChat.setDisable(false);
 			tabPane.getSelectionModel().select(1);
 			txtMsg.requestFocus();
@@ -363,6 +367,7 @@ public class Controller_Client implements Initializable {
 			}catch (Exception e) {
 				
 			}
+			colore = Color.web("#000000");
 			list.getItems().add("[You]: "+ aCapoAuto(txtMsg.getText()));
 			txtMsg.setText("");
 			txtMsg.requestFocus();
@@ -394,10 +399,18 @@ public class Controller_Client implements Initializable {
 	}
 	
 	public void clickEsci() {
-		tabWelcome.setDisable(false);
+		try {
+			clientSocket = new DatagramSocket(clientPort);
+			String message = "MESG " + room + " " + nick + " " + "#000000" + " " + "/exit";
+			clientSocket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, IPAddress, SERVER_PORT));
+			clientSocket.close();
+		}catch (Exception e) {
+			
+		}
+/*		tabWelcome.setDisable(false);
 		tabChat.setDisable(true);
 		tabPane.getSelectionModel().select(0);
-		list.getItems().clear();
+		list.getItems().clear();*/
 	}
 	
 	private void suona(int i) {

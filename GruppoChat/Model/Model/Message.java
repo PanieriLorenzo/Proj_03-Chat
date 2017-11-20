@@ -7,6 +7,7 @@ public class Message {
 	private boolean isHandshake;
 	private boolean isCommand;
 	private boolean isConnect;
+	private boolean isExit;
 	private ClientUser sender;
 	private String color;
 	private Room room;
@@ -38,6 +39,7 @@ public class Message {
 		this.isHandshake = true;
 		this.isCommand = false;
 		this.isConnect = false;
+		this.isExit = false;
 	}
 	
 	public boolean isHandshake(){
@@ -48,6 +50,7 @@ public class Message {
 		this.isCommand = true;
 		this.isConnect = false;
 		this.isHandshake = false;
+		this.isExit = false;
 	}
 	
 	public boolean isCommand(){
@@ -58,16 +61,29 @@ public class Message {
 		this.isCommand = false;
 		this.isConnect = false;
 		this.isHandshake = false;
+		this.isExit = false;
 	}
 	
 	public boolean isMessage(){
-		return !isCommand && !isConnect && !isHandshake;
+		return !isCommand && !isConnect && !isHandshake && !isExit;
 	}
 	
 	public void toggleConnect(){
 		this.isConnect = true;
 		this.isCommand = false;
 		this.isHandshake = false;
+		this.isExit = false;
+	}
+	
+	public void toggleExit() {
+		this.isConnect = false;
+		this.isCommand = false;
+		this.isHandshake = false;
+		this.isExit = true;
+	}
+	
+	public boolean isExit() {
+		return isExit;
 	}
 	
 	public boolean isConnect(){
