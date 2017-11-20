@@ -248,6 +248,7 @@ public class Controller_Server implements Initializable{
 										message.setRoom(tempRoom);
 										message.setSender(tempUser);
 										message.setColor(tempUser.getColor());
+										System.out.println(tempUser.getColor());
 										StringBuilder tempMSG = new StringBuilder();
 										for(int i=4; i<receiveRawMSG.length;i++) {
 											tempMSG.append(receiveRawMSG[i].trim() + " ");

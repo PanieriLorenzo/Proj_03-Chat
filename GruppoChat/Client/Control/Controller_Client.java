@@ -106,7 +106,9 @@ public class Controller_Client implements Initializable {
 	final AudioClip sMatematica_veloce = new AudioClip(this.getClass().getResource("../Sound/quick_maths.mp3").toExternalForm());
 	
     String nick = null;
-    Color colore = Color.web("#000000");
+    boolean coloreFlag = false;
+    Color colore = Color.web("#000000");;
+    Color coloreUtente = Color.web("#D41800");
     String room = null;
 	
     //ATTRIBUTI THREAD:
@@ -154,6 +156,7 @@ public class Controller_Client implements Initializable {
 		list.setId("lv");
 		tabChat.setDisable(true);
 		tgSound.setSelected(true);
+		tgSound.setText("Attivo");
 		list.setCellFactory(lv -> new ListCell<String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -163,7 +166,12 @@ public class Controller_Client implements Initializable {
                     setTextFill(null);
                 } else {
                     setText(item);
-                    setTextFill(colore);
+                    if(coloreFlag == false) {
+                    	this.setTextFill(coloreUtente);
+                    }
+                    else {
+                    	this.setTextFill(colore);
+                    }
                 }
             }
         });
@@ -206,8 +214,14 @@ public class Controller_Client implements Initializable {
 										tempMSG.append(receiveRawMSG[i].trim() + " ");
 									}
 									String exploitTempNick = receiveRawMSG[1].trim();
-									colore = Color.web(receiveRawMSG[2].trim());
+									
+									/*String exploitColor = receiveRawMSG[2].trim();
+									System.out.println(exploitColor);
+									Platform.runLater(()-> colore = Color.web(exploitColor));*/
+									coloreFlag = true;
+									colore = Color.web("#000000");
 									Platform.runLater(()-> list.getItems().add("[" + exploitTempNick + "]: "+ aCapoAuto(tempMSG.toString())));
+									
 									Platform.runLater(()-> list.scrollTo(list.getItems().size()));
 									suona(1);
 								}else if(receiveRawMSG[0].trim().equals("COMD")) {
@@ -355,7 +369,7 @@ public class Controller_Client implements Initializable {
 	
 	public void clickInvia() {
 		String msg;
-		
+		coloreFlag = false;
 		if(txtMsg.getText().equals("")) {
 			txtMsg.requestFocus();
 		}else {
@@ -367,7 +381,7 @@ public class Controller_Client implements Initializable {
 			}catch (Exception e) {
 				
 			}
-			colore = Color.web("#000000");
+			colore = Color.web("#D41800");
 			list.getItems().add("[You]: "+ aCapoAuto(txtMsg.getText()));
 			txtMsg.setText("");
 			txtMsg.requestFocus();
