@@ -140,7 +140,10 @@ public class Controller_Server implements Initializable{
 									tempUser.setRoom(tempRoom);
 									tempUser.setAddress(tempAddress);
 									tempUser.setPort(tempPort);
-									tempUser.setColor(colors[((int)Math.random()*1000)%5]);
+/*									for(int i=0;i<100;i++) {
+										System.out.println("" + colors[((int)(Math.random()*1000))%5]);
+									}*/
+									tempUser.setColor(colors[((int)(Math.random()*1000))%5]);
 									if(tempRoom == null) {
 										tempRoom = new Room(receiveRawMSG[3].trim());
 										tempUser.setRoom(tempRoom);
