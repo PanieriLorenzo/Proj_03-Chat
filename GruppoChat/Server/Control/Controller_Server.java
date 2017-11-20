@@ -115,7 +115,7 @@ public class Controller_Server implements Initializable{
 								tempPort = receivePacket.getPort();
 								receiveRawMSG = (new String(receivePacket.getData())).split(" ");
 /*								//TEST
-								receiveRawMSG = ("MESG lol #000000 Generale tua madre").split(" ");
+								receiveRawMSG = ("MESG lol #000000 Generale TEST").split(" ");
 								System.out.println("TRY> FOR> inizializzato receiveRawMSG");*/
 								//FINE TEST
 								System.out.println("TRY> FOR> ricevuto pacchetto con indirizzo: " + tempAddress + ":" + tempPort);
@@ -362,10 +362,10 @@ public class Controller_Server implements Initializable{
 	public void avviaServer() {
 		lista.getItems().add("avvio");
 		btnAvvia.setDisable(true);
-//		thread = new Thread_Server();
+
 		manager = r;
 		System.out.println("Inizializzato il thread");
-//		thread.start();
+
 		service.start();
 		System.out.println("Avviato il thread");
 		btnTermina.setDisable(false);

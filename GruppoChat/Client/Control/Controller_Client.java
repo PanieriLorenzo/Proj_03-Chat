@@ -81,7 +81,6 @@ public class Controller_Client implements Initializable {
 	@FXML Tab tabWelcome;
 	
 	@FXML ListView<String> list = new ListView<String>();
-	//@FXML ObservableList<String> item =FXCollections.observableArrayList("ciao","boh","dad","sdasd","sdasdwq","sdqwqe","qwqwe");
 	@FXML ContextMenu menu = new ContextMenu();
 	@FXML ContextMenu menuInvia = new ContextMenu();
 	@FXML TextField txtMsg;
@@ -215,9 +214,6 @@ public class Controller_Client implements Initializable {
 									}
 									String exploitTempNick = receiveRawMSG[1].trim();
 									
-									/*String exploitColor = receiveRawMSG[2].trim();
-									System.out.println(exploitColor);
-									Platform.runLater(()-> colore = Color.web(exploitColor));*/
 									coloreFlag = true;
 									colore = Color.web("#000000");
 									Platform.runLater(()-> list.getItems().add("[" + exploitTempNick + "]: "+ aCapoAuto(tempMSG.toString())));
