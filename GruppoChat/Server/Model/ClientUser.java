@@ -1,5 +1,6 @@
 package Model;
 
+import java.net.InetAddress;
 import java.net.Socket;
 
 import javafx.scene.paint.Color;
@@ -8,6 +9,8 @@ public class ClientUser {
 	private String nickname;
 	private Room room;
 	private Color color;
+	private InetAddress address;
+	private int port;
 	
 	public ClientUser(String nickname){
 		this.nickname = nickname;
@@ -44,5 +47,30 @@ public class ClientUser {
 				(int)( color.getRed() * 255 ),
 	            (int)( color.getGreen() * 255 ),
 	            (int)( color.getBlue() * 255 ) );
+	}
+
+	public void setAddress(InetAddress address) {
+		this.address = address;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+	
+	public InetAddress getAddress() {
+		return address;
+	}
+	
+	public int getPort() {
+		return port;
+	}
+
+	public void debugPrint() {
+		System.out.println("NICK:" + this.nickname);
+		System.out.println("PORT:" + this.port);
+		System.out.println("IP:" + this.address);
+		System.out.println("COLOR:" + this.color);
+		System.out.println("ROOM:" + this.room);
+		
 	}
 }

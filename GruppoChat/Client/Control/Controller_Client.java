@@ -13,6 +13,9 @@ import java.lang.reflect.Array;
 
 import org.omg.CORBA.INITIALIZE;
 
+import Model.ClientUser;
+import Model.Message;
+import Model.Room;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -61,7 +64,7 @@ public class Controller_Client implements Initializable {
 	private DatagramSocket clientSocket;
 	private InetAddress IPAddress;
 	private final int SERVER_PORT = 9999;
-	private final int CLIENT_PORT = 9999;
+	private int clientPort;
 	private byte[] sendBuffer = new byte[1024];
 	private byte[] receiveBuffer = new byte[1024];
 	private String[] receiveMSG;
@@ -100,6 +103,7 @@ public class Controller_Client implements Initializable {
 	
     String nick = null;
     Color colore = Color.web("#0000FF");
+    String room = null;
 	
     //ATTRIBUTI THREAD:
     Service<Void> service;
@@ -165,8 +169,44 @@ public class Controller_Client implements Initializable {
 	            return new Task<Void>() {
 	                @Override
 	                protected Void call() throws Exception {
-	                    
-	                    return null;
+	                	System.out.println("Thread_Server avviato");
+						byte[] receiveBuffer = new byte[1024];
+						DatagramPacket receivePacket;
+						String[] receiveRawMSG;
+						System.out.println("Variabili inizializzate");
+						
+						try{
+							DatagramSocket serverSocket = new DatagramSocket(port);
+							System.out.println("TRY> serverSocket creato on porta: " + port);
+							for(;;){
+								System.out.println("TRY> FOR> Ricezione...");
+								receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
+								serverSocket.receive(receivePacket);
+								receiveRawMSG = (new String(receivePacket.getData())).split(" ");
+								System.out.println("TRY> FOR> ricevuto pacchetto");
+								System.out.println("\te messaggio: " + receiveRawMSG[0].trim());
+								
+								if(receiveRawMSG[0].trim().equals("HAND")){
+									assert true; //non fa nulla
+								}else if(receiveRawMSG[0].trim().equals("CNCT")){
+									assert true; //non fa nulla
+								}else if(receiveRawMSG[0].trim().equals("MESG")){
+									//roba
+								}else if(receiveRawMSG[0].trim().equals("COMD")) {
+									//roba
+								}else if(receiveRawMSG[0].trim().equals("EXIT")) {
+									//roba
+								}else{
+									System.out.println("Errore: Header messaggio errato/corrotto");
+									throw new Exception();
+								}
+								System.out.println("TRY> FOR> Ricezione completata!");
+							}
+						}catch (Exception e){
+							System.out.println("ERRORE: Thread_Client");
+							e.printStackTrace();
+						}
+						return null;
 	                }
 	            };
 	        }
@@ -193,7 +233,8 @@ public class Controller_Client implements Initializable {
 			try {
 				//SPEDIZIONE
 				clientSocket = new DatagramSocket();
-				String message = "CNCT " + nick + " " + "#000000 " + (String)cmbChat.getSelectionModel().getSelectedItem();
+				room = (String)cmbChat.getSelectionModel().getSelectedItem();
+				String message = "CNCT " + nick + " " + "#000000" + " " + room;
 				clientSocket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, IPAddress, SERVER_PORT));
 				//RICEZIONE
 				DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
@@ -204,6 +245,8 @@ public class Controller_Client implements Initializable {
 					System.out.println("ALERT: nickname non disponibile");
 					Alert alert = new Alert(AlertType.ERROR, "Il nickname non è disponibile!" , ButtonType.OK);
 					alert.showAndWait();
+				}else {
+					clientPort = Integer.parseInt(receiveMSG[2].trim());
 				}
 				clientSocket.close();
 			} catch (Exception e) {
@@ -270,9 +313,10 @@ public class Controller_Client implements Initializable {
 			txtMsg.requestFocus();
 		}else {
 			try {
-				clientSocket = new DatagramSocket();
-				String message = "MESG Generale lol #000000 tua madre";
+				clientSocket = new DatagramSocket(clientPort);
+				String message = "MESG " + room + " " + nick + " " + "#000000" + " " + txtMsg.getText();
 				clientSocket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, IPAddress, SERVER_PORT));
+				clientSocket.close();
 			}catch (Exception e) {
 				
 			}
