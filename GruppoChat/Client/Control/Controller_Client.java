@@ -73,6 +73,8 @@ public class Controller_Client implements Initializable {
 	@FXML Button btnJoin;
 	@FXML TextField txtNickname;
 	@FXML ComboBox cmbChat;
+	@FXML TextField txtRoom;
+	private boolean isCreate;
 	
 	@FXML TabPane tabPane;
 	@FXML Tab tabChat;
@@ -145,6 +147,9 @@ public class Controller_Client implements Initializable {
 		for(int i=1; i<receiveMSG.length; i++) {
 			cmbChat.getItems().add(receiveMSG[i]);
 		}
+		cmbChat.getItems().add("CREA STANZA");
+		txtRoom.setVisible(false);
+		isCreate = false;
 		cmbChat.getSelectionModel().selectFirst();
 		list.setId("lv");
 		tabChat.setDisable(true);
@@ -239,6 +244,7 @@ public class Controller_Client implements Initializable {
 	
 	public void clickJoin() {
 		boolean ok = true;
+		boolean okStanza = true;
 		nick = txtNickname.getText();
 		if(nick.equals("")){
 			ok = false;
@@ -257,28 +263,41 @@ public class Controller_Client implements Initializable {
 			try {
 				//SPEDIZIONE
 				clientSocket = new DatagramSocket();
-				room = (String)cmbChat.getSelectionModel().getSelectedItem();
-				String message = "CNCT " + nick + " " + "#000000" + " " + room;
-				clientSocket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, IPAddress, SERVER_PORT));
-				//RICEZIONE
-				DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
-				clientSocket.receive(receivePacket);
-				receiveMSG = new String(receivePacket.getData(), 0, receivePacket.getLength()).split(" ");
-				if(receiveMSG[1].trim().equals("false")) {
-					ok = false;
-					System.out.println("ALERT: nickname non disponibile");
-					Alert alert = new Alert(AlertType.ERROR, "Il nickname non è disponibile!" , ButtonType.OK);
-					alert.showAndWait();
+				if(isCreate) {
+					room = txtRoom.getText();
+					if(room.equals("")) {
+						okStanza = false;
+						Alert alert = new Alert(AlertType.ERROR, "Il nome della stanza non può essere vuoto!" , ButtonType.OK);
+						alert.showAndWait();
+					}else {
+						okStanza = true;
+					}
 				}else {
-					clientPort = Integer.parseInt(receiveMSG[2].trim());
+					room = (String)cmbChat.getSelectionModel().getSelectedItem();
 				}
-				clientSocket.close();
+				if(okStanza) {
+					String message = "CNCT " + nick + " " + "#000000" + " " + room;
+					clientSocket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, IPAddress, SERVER_PORT));
+					//RICEZIONE
+					DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
+					clientSocket.receive(receivePacket);
+					receiveMSG = new String(receivePacket.getData(), 0, receivePacket.getLength()).split(" ");
+					if(receiveMSG[1].trim().equals("false")) {
+						ok = false;
+						System.out.println("ALERT: nickname non disponibile");
+						Alert alert = new Alert(AlertType.ERROR, "Il nickname non è disponibile!" , ButtonType.OK);
+						alert.showAndWait();
+					}else {
+						clientPort = Integer.parseInt(receiveMSG[2].trim());
+					}
+					clientSocket.close();
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(ok) {
+		if(ok && okStanza) {
 			service.start();
 			tabChat.setDisable(false);
 			tabPane.getSelectionModel().select(1);
@@ -433,5 +452,16 @@ public class Controller_Client implements Initializable {
 		return msg;
 	}
 	
-
+	public void cmbChatAction() {
+		if((((String)cmbChat.getSelectionModel().getSelectedItem()).equals("CREA STANZA"))) {
+			txtRoom.setVisible(true);
+			System.out.println("crea stanza");
+			txtRoom.clear();
+			isCreate = true;
+		}else {
+			txtRoom.clear();
+			isCreate = false;
+			txtRoom.setVisible(false);
+		}
+	}
 }

@@ -31,7 +31,7 @@
                               <JFXTextField fx:id="txtNickname" focusColor="#d41800" layoutX="260.0" layoutY="103.0" prefHeight="39.0" prefWidth="411.0" promptText="Nickname" />
                               <Label layoutX="260.0" layoutY="56.0" prefHeight="34.0" prefWidth="198.0" text="Come ti vuoi chiamare?" textFill="#868686" />
                               <Label layoutX="260.0" layoutY="166.0" prefHeight="52.0" prefWidth="229.0" text="In che chat vuoi entrare?" textFill="#868686" />
-                              <JFXComboBox fx:id="cmbChat" focusColor="#d41800" layoutX="260.0" layoutY="231.0" prefHeight="31.0" prefWidth="416.0" stylesheets="@application.css" />
+                              <JFXComboBox fx:id="cmbChat" focusColor="#d41800" layoutX="260.0" layoutY="231.0" onAction="#cmbChatAction" prefHeight="31.0" prefWidth="416.0" stylesheets="@application.css" />
                               <JFXButton fx:id="btnJoin" layoutX="410.0" layoutY="360.0" onMouseClicked="#clickJoin" prefHeight="64.0" prefWidth="158.0" ripplerFill="WHITE" style="-fx-background-color: #D41800;" text="Entra" textFill="WHITE" />
                               <ImageView fitHeight="37.0" fitWidth="34.0" layoutX="197.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -43,6 +43,7 @@
                                     <Image url="@../Img/ic_chat_black_48dp_2x.png" />
                                  </image>
                               </ImageView>
+                              <JFXTextField fx:id="txtRoom" focusColor="#d41800" layoutX="260.0" layoutY="301.0" prefHeight="24.0" prefWidth="416.0" />
                            </children>
                         </AnchorPane>
                      </content>

@@ -208,7 +208,7 @@ public class Controller_Server implements Initializable{
 												ArrayList<ClientUser> tempArray = new ArrayList<ClientUser>();
 												tempArray.add(tempUser2);
 												message.setRecipients(tempArray);
-												message.setMessage("[WHISPER/" + tempUser +"]: " + );
+												message.setMessage("[WHISPER/" + tempUser +"]: " + "prova");
 											}else {
 												ArrayList<ClientUser> tempArray = new ArrayList<ClientUser>();
 												tempArray.add(tempUser);
