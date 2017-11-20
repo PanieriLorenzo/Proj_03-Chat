@@ -1,0 +1,20 @@
+Programma creato da Bisetto,Hu,Panieri.
+
+File necessari:
+  - Scaricare e(fx)clipse sul marketplace di Eclipse
+  - Scaricare JFoenix da http://www.jfoenix.com/download/jfoenix.jar
+  - Assicurarsi di avere l'ultima versione aggiornata di java 8
+  
+Procedure necessarie:
+  - Una volta importato il progetto su Eclipse, tasto destro sul progetto
+  - Build path, configure build path, libraries
+  - Eliminare le librerie
+  - Add External Jar e selezionare il jar di JFoenix
+  - Add library e selezionare JRE system library, selezionare JRE 1.8.x_x (se si ha il workspace già con JRE 1.8.x_x basta lasciare
+    selezionata l'ultima opzion), finish
+  - Add library e selezionare JavaFX SDK e finish
+  - Apply and close
+  - Il progetto adesso è funzionante
+  
+Note:
+  I due main (del client e del server) si trovano nei corrispettivi pacchetti nelle source folder
