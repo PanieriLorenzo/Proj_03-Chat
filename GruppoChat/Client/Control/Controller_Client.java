@@ -99,7 +99,9 @@ public class Controller_Client implements Initializable {
 	boolean sound = true;
 	
 	final AudioClip sInvio = new AudioClip(this.getClass().getResource("../Sound/all-eyes-on-me.mp3").toExternalForm());
-	final AudioClip sRicezione = new AudioClip(this.getClass().getResource("../Sound/you-have-new-message.mp3").toExternalForm());
+	final AudioClip sRicezione = new AudioClip(this.getClass().getResource("../Sound/receiveMSGfx.mp3").toExternalForm());
+	final AudioClip sSuona = new AudioClip(this.getClass().getResource("../Sound/ringFx.mp3").toExternalForm());
+	final AudioClip sMatematica_veloce = new AudioClip(this.getClass().getResource("../Sound/quick_maths.mp3").toExternalForm());
 	
     String nick = null;
     Color colore = Color.web("#0000FF");
@@ -176,12 +178,14 @@ public class Controller_Client implements Initializable {
 						System.out.println("Variabili inizializzate");
 						
 						try{
-							DatagramSocket serverSocket = new DatagramSocket(port);
-							System.out.println("TRY> serverSocket creato on porta: " + port);
+							DatagramSocket clientSocket = new DatagramSocket(clientPort-20000);
+							System.out.println("TRY> clientSocket creato on porta: " + (clientPort-20000));
 							for(;;){
 								System.out.println("TRY> FOR> Ricezione...");
 								receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
-								serverSocket.receive(receivePacket);
+								System.out.println("a");
+								clientSocket.receive(receivePacket);
+								System.out.println("b");
 								receiveRawMSG = (new String(receivePacket.getData())).split(" ");
 								System.out.println("TRY> FOR> ricevuto pacchetto");
 								System.out.println("\te messaggio: " + receiveRawMSG[0].trim());
@@ -191,15 +195,35 @@ public class Controller_Client implements Initializable {
 								}else if(receiveRawMSG[0].trim().equals("CNCT")){
 									assert true; //non fa nulla
 								}else if(receiveRawMSG[0].trim().equals("MESG")){
-									//roba
+									StringBuilder tempMSG = new StringBuilder();
+									for(int i=4; i<receiveRawMSG.length;i++) {
+										tempMSG.append(receiveRawMSG[i].trim() + " ");
+									}
+									String exploitTempNick = receiveRawMSG[1].trim();
+									Platform.runLater(()-> list.getItems().add("[" + exploitTempNick + "]: "+ aCapoAuto(tempMSG.toString())));
+									Platform.runLater(()-> list.scrollTo(list.getItems().size()));
+									suona(1);
 								}else if(receiveRawMSG[0].trim().equals("COMD")) {
-									//roba
+									if(receiveRawMSG[2].trim().equals("~§r;")) {
+										suona(2);
+									}else if(receiveRawMSG[2].trim().equals("~§q;")){
+										suona(3);
+									}else {
+										StringBuilder tempMSG = new StringBuilder();
+										for(int i=2; i<receiveRawMSG.length;i++) {
+											tempMSG.append(receiveRawMSG[i].trim() + " ");
+										}
+										Platform.runLater(()-> list.getItems().add(aCapoAuto(tempMSG.toString())));
+										Platform.runLater(()-> list.scrollTo(list.getItems().size()));
+										suona(1);
+									}
 								}else if(receiveRawMSG[0].trim().equals("EXIT")) {
 									//roba
 								}else{
 									System.out.println("Errore: Header messaggio errato/corrotto");
 									throw new Exception();
 								}
+								receiveBuffer = new byte[1024];
 								System.out.println("TRY> FOR> Ricezione completata!");
 							}
 						}catch (Exception e){
@@ -365,6 +389,12 @@ public class Controller_Client implements Initializable {
 			}break;
 			case 1:{
 				sRicezione.play();
+			}break;
+			case 2:{
+				sSuona.play();
+			}break;
+			case 3:{
+				sMatematica_veloce.play();
 			}break;
 			default:
 				break;

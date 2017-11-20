@@ -168,9 +168,65 @@ public class Controller_Server implements Initializable{
 									System.out.println("Trovato :" + tempRoom);
 									ClientUser tempUser = tempRoom.search(receiveRawMSG[2].trim());
 									
-									if(receiveRawMSG[1].trim().charAt(0) == '/') {
+									System.out.println(receiveRawMSG[4].trim().charAt(0));
+									if(receiveRawMSG[4].trim().charAt(0) == '/') {
+										System.out.println(receiveRawMSG[4].trim());
 										//COMANDO
 										message.toggleCommand();
+										if(receiveRawMSG[4].trim().equals("/ring")) {
+											//RING:
+											ClientUser tempUser2 = tempRoom.search(receiveRawMSG[5].trim());
+											if(tempUser2 != null) {
+												ArrayList<ClientUser> tempArray = new ArrayList<ClientUser>();
+												tempArray.add(tempUser2);
+												message.setRecipients(tempArray);
+												message.setMessage("~§r;");
+											}else {
+												ArrayList<ClientUser> tempArray = new ArrayList<ClientUser>();
+												tempArray.add(tempUser);
+												message.setRecipients(tempArray);
+												message.setMessage("[SERVER-BOT]: Utente non trovato");
+											}
+										}else if(receiveRawMSG[4].trim().equals("/quick_maths")) {
+											//2+2=4, 4-1=3, quick maths!:
+											ClientUser tempUser2 = tempRoom.search(receiveRawMSG[5].trim());
+											if(tempUser2 != null) {
+												ArrayList<ClientUser> tempArray = new ArrayList<ClientUser>();
+												tempArray.add(tempUser2);
+												message.setRecipients(tempArray);
+												message.setMessage("~§q;");
+											}else {
+												ArrayList<ClientUser> tempArray = new ArrayList<ClientUser>();
+												tempArray.add(tempUser);
+												message.setRecipients(tempArray);
+												message.setMessage("[SERVER-BOT]: Utente non trovato");
+											}
+										}else if(receiveRawMSG[4].trim().equals("/whisper")) {
+											//WHISPER:
+											ClientUser tempUser2 = tempRoom.search(receiveRawMSG[5].trim());
+											if(tempUser2 != null) {
+												ArrayList<ClientUser> tempArray = new ArrayList<ClientUser>();
+												tempArray.add(tempUser2);
+												message.setRecipients(tempArray);
+												message.setMessage("[WHISPER/" + tempUser +"]: " + );
+											}else {
+												ArrayList<ClientUser> tempArray = new ArrayList<ClientUser>();
+												tempArray.add(tempUser);
+												message.setRecipients(tempArray);
+												message.setMessage("[SERVER-BOT]: Utente non trovato");
+											}
+										}else {
+											//HELP:
+											ArrayList<ClientUser> tempArray = new ArrayList<ClientUser>();
+											tempArray.add(tempUser);
+											message.setRecipients(tempArray);
+											message.setMessage("[SERVER-BOT]: Ecco una lista dei comandi:\n"
+													+ "\t/help  -  mostra l'elenco dei comandi\n"
+													+ "\t/ring [nome_utente]  -  fa suonare il programma dell'utente specificato\n"
+													+ "\t/whisper [nome_utente]  -  invia un messaggio privato all'utente specificato\n"
+													+ "\t/exit  -  esce dalla stanza corrente");
+										}
+										//~§r;
 									}else {
 										//MESSAGGIO
 										message.toggleMessage();
@@ -187,6 +243,7 @@ public class Controller_Server implements Initializable{
 									System.out.println("Errore: Header messaggio errato/corrotto");
 									throw new Exception();
 								}
+								receiveBuffer = new byte[1024];
 								System.out.println("TRY> FOR> Ricezione completata!");
 								
 								System.out.println("TRY> FOR> Spedizione...");
@@ -211,7 +268,22 @@ public class Controller_Server implements Initializable{
 									System.out.println("TRY> FOR> inviato pacchetto ad indirizzo: " + tempAddress + "/" + tempPort);
 									System.out.println("\te messaggio: " + sendRawMSG.toString());
 								}else if(message.isCommand()){
-									
+									System.out.println("TRY> FOR> COMD> Spedizione command...");
+									sendRawMSG = new StringBuilder();
+									sendRawMSG.append("COMD ");
+									sendRawMSG.append(message.getSender() + " ");
+									sendRawMSG.append(message.getMessage());
+									sendBuffer = sendRawMSG.toString().getBytes();
+									//sendToAll(message.getRoom(), sendBuffer);
+									for(int i=0; i<message.getRecipients().size(); i++){
+										message.getRecipients().get(i).debugPrint();
+										sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, message.getRecipients().get(i).getAddress(), message.getRecipients().get(i).getPort()-20000);
+										System.out.println("Creato pacchetto con indirizzo: " + message.getRecipients().get(i).getAddress() + " e port: " + (message.getRecipients().get(i).getPort()-20000));
+										System.out.println("\te messaggio: " + sendRawMSG.toString());
+										serverSocket.send(sendPacket);
+										System.out.println("TRY> FOR> inviato pacchetto ad indirizzo: " + message.getRecipients().get(i).getAddress() + "/" + (message.getRecipients().get(i).getPort()-20000));
+										System.out.println("\te messaggio: " + sendRawMSG.toString());
+									}
 								}else if(message.isMessage()){
 									System.out.println("TRY> FOR> MESG> Spedizione message...");
 									sendRawMSG = new StringBuilder();
@@ -225,21 +297,20 @@ public class Controller_Server implements Initializable{
 									for(int i=0; i<message.getRoom().getArray().size(); i++){
 										message.getRoom().getUser(i).debugPrint();
 										if(!message.getRoom().getUser(i).getNickname().equals(message.getSender().getNickname())) {
-											sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, message.getRoom().getUser(i).getAddress(), message.getRoom().getUser(i).getPort());
-											System.out.println("Creato pacchetto con indirizzo: " + message.getRoom().getUser(i).getAddress() + " e port: " + message.getRoom().getUser(i).getPort());
+											sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, message.getRoom().getUser(i).getAddress(), message.getRoom().getUser(i).getPort()-20000);
+											System.out.println("Creato pacchetto con indirizzo: " + message.getRoom().getUser(i).getAddress() + " e port: " + (message.getRoom().getUser(i).getPort()-20000));
 											System.out.println("\te messaggio: " + sendRawMSG.toString());
 											serverSocket.send(sendPacket);
-											System.out.println("TRY> FOR> inviato pacchetto ad indirizzo: " + message.getRoom().getUser(i).getAddress() + "/" + message.getRoom().getUser(i).getPort());
+											System.out.println("TRY> FOR> inviato pacchetto ad indirizzo: " + message.getRoom().getUser(i).getAddress() + "/" + (message.getRoom().getUser(i).getPort()-20000));
 											System.out.println("\te messaggio: " + sendRawMSG.toString());
 										}
 									}
-									
-									
-									sendRawMSG = null;
 								}else{
 									System.out.println("Errore: Header messaggio errato/corrotto");
 									throw new Exception();
 								}
+								sendRawMSG = null;
+								sendBuffer = new byte[1024];
 								System.out.println("TRY> FOR> Spedizione completata!");
 							}
 						}catch (Exception e){
