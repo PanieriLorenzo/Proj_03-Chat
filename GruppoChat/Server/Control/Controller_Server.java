@@ -79,7 +79,6 @@ public class Controller_Server implements Initializable{
 		this.r = new Room_Manager();
 		
 		r.addRoom(new Room("Generale"));
-		r.addRoom(new Room("Test"));
 		
 		//INIT GRAFICA:
 		btnTermina.setDisable(true);

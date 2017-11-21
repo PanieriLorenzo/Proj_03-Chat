@@ -482,6 +482,7 @@ public class Controller_Client implements Initializable {
 	public void cmbChatAction() {
 		if((((String)cmbChat.getSelectionModel().getSelectedItem()).equals("CREA STANZA"))) {
 			txtRoom.setVisible(true);
+			txtRoom.requestFocus();
 			System.out.println("crea stanza");
 			txtRoom.clear();
 			isCreate = true;
