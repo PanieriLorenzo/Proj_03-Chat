@@ -14,7 +14,14 @@ Procedure necessarie:
     selezionata l'ultima opzion), finish
   - Add library e selezionare JavaFX SDK e finish
   - Apply and close
-  - Il progetto adesso Ã¨ funzionante
+  - Il progetto adesso è funzionante
   
 Note:
   I due main (del client e del server) si trovano nei corrispettivi pacchetti nelle source folder
+  
+Avvio:
+  - il server va avviato prima di qualunque client
+  - il server va arrestato dopo di tutti i client
+  - per avviare il server avviare il Main_Server
+  - per avviare il client avviare il Main_Client
+

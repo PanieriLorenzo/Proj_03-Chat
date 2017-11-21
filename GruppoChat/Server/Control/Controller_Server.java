@@ -374,6 +374,7 @@ public class Controller_Server implements Initializable{
 	public void terminaServer() {
 		lista.getItems().add("termina");
 		btnTermina.setDisable(true);
+		
 		System.exit(0);
 		btnAvvia.setDisable(false);
 	}
