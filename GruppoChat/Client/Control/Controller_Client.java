@@ -409,13 +409,17 @@ public class Controller_Client implements Initializable {
 	}
 	
 	public void clickEsci() {
-		try {
-			clientSocket = new DatagramSocket(clientPort);
-			String message = "MESG " + room + " " + nick + " " + "#000000" + " " + "/exit";
-			clientSocket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, IPAddress, SERVER_PORT));
-			clientSocket.close();
-		}catch (Exception e) {
-			
+		if(room == null) {
+			System.exit(0);
+		}else {
+			try {
+				clientSocket = new DatagramSocket(clientPort);
+				String message = "MESG " + room + " " + nick + " " + "#000000" + " " + "/exit";
+				clientSocket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, IPAddress, SERVER_PORT));
+				clientSocket.close();
+			}catch (Exception e) {
+				
+			}
 		}
 /*		tabWelcome.setDisable(false);
 		tabChat.setDisable(true);
