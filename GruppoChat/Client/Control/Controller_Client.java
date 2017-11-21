@@ -16,6 +16,7 @@ import org.omg.CORBA.INITIALIZE;
 import Model.ClientUser;
 import Model.Message;
 import Model.Room;
+import View.ColoredText;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -80,7 +81,8 @@ public class Controller_Client implements Initializable {
 	@FXML Tab tabChat;
 	@FXML Tab tabWelcome;
 	
-	@FXML ListView<String> list = new ListView<String>();
+	//@FXML ListView<String> list = new ListView<String>();
+	@FXML ListView<ColoredText> list = new ListView<ColoredText>();
 	@FXML ContextMenu menu = new ContextMenu();
 	@FXML ContextMenu menuInvia = new ContextMenu();
 	@FXML TextField txtMsg;
@@ -156,21 +158,16 @@ public class Controller_Client implements Initializable {
 		tabChat.setDisable(true);
 		tgSound.setSelected(true);
 		tgSound.setText("Attivo");
-		list.setCellFactory(lv -> new ListCell<String>() {
+		list.setCellFactory(lv -> new ListCell<ColoredText>() {
             @Override
-            protected void updateItem(String item, boolean empty) {
+            protected void updateItem(ColoredText item, boolean empty) {
                 super.updateItem(item, empty);
                 if (item == null) {
                     setText(null);
                     setTextFill(null);
                 } else {
-                    setText(item);
-                    if(coloreFlag == false) {
-                    	this.setTextFill(coloreUtente);
-                    }
-                    else {
-                    	this.setTextFill(colore);
-                    }
+                    setText(item.getText());
+                    setTextFill(item.getColor());
                 }
             }
         });
@@ -215,9 +212,12 @@ public class Controller_Client implements Initializable {
 									String exploitTempNick = receiveRawMSG[1].trim();
 									
 									coloreFlag = true;
-									colore = Color.web("#000000");
-									Platform.runLater(()-> list.getItems().add("[" + exploitTempNick + "]: "+ aCapoAuto(tempMSG.toString())));
-									
+									colore = Color.web(receiveRawMSG[2].trim());
+									System.out.println("--------"+receiveRawMSG[2].trim());
+									String exploit = "[" + exploitTempNick + "]: "+ aCapoAuto(tempMSG.toString());
+									String exploitColore = receiveRawMSG[2].trim();
+									//Platform.runLater(()-> list.getItems().add("[" + exploitTempNick + "]: "+ aCapoAuto(tempMSG.toString())));
+									Platform.runLater(()-> list.getItems().add(new ColoredText(exploit, Color.web(exploitColore))));
 									Platform.runLater(()-> list.scrollTo(list.getItems().size()));
 									suona(1);
 								}else if(receiveRawMSG[0].trim().equals("COMD")) {
@@ -230,11 +230,13 @@ public class Controller_Client implements Initializable {
 										for(int i=2; i<receiveRawMSG.length;i++) {
 											tempMSG.append(receiveRawMSG[i].trim() + " ");
 										}
-										Platform.runLater(()-> list.getItems().add(aCapoAuto(tempMSG.toString())));
+										String exploit = aCapoAuto(tempMSG.toString());
+										//Platform.runLater(()-> list.getItems().add(aCapoAuto(tempMSG.toString())));
+										Platform.runLater(()-> list.getItems().add(new ColoredText(exploit, Color.web("#000000"))));
 										Platform.runLater(()-> list.scrollTo(list.getItems().size()));
 										suona(1);
 									}
-								}else if(receiveRawMSG[0].trim().equals("EXIT")) {
+								}else if(receiveRawMSG[0].trim().equals("EXIT")) {								
 									running = false;
 								}else{
 									System.out.println("Errore: Header messaggio errato/corrotto");
@@ -326,7 +328,8 @@ public class Controller_Client implements Initializable {
 	}
 	
 	public void clickCopia() {
-		String str = list.getSelectionModel().getSelectedItem();
+		ColoredText strRaw = list.getSelectionModel().getSelectedItem();
+		String str = strRaw.getText();
 		if(str.contains("[") && str.contains("]")) {
 			int startIndex = str.indexOf("[");
 			int endIndex = str.indexOf("]");
@@ -336,7 +339,6 @@ public class Controller_Client implements Initializable {
 		}
 	    content.putString(str);
 	    clipboard.setContent(content);
-
 	}
 
 	public void clickIncolla() {
@@ -378,7 +380,9 @@ public class Controller_Client implements Initializable {
 				
 			}
 			colore = Color.web("#D41800");
-			list.getItems().add("[You]: "+ aCapoAuto(txtMsg.getText()));
+			//list.getItems().add("[You]: "+ aCapoAuto(txtMsg.getText()));
+			String exploitInvio = "[You]: "+ aCapoAuto(txtMsg.getText());
+			Platform.runLater(()-> list.getItems().add(new ColoredText(exploitInvio, Color.web("#D41800"))));
 			txtMsg.setText("");
 			txtMsg.requestFocus();
 			list.scrollTo(list.getItems().size());
