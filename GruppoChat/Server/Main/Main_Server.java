@@ -26,7 +26,7 @@ public class Main_Server extends Application {
 			//scene.getStylesheets().add(getClass().getResource("application.css").toString());
 			primaryStage.setScene(scene);
 			primaryStage.getIcons().add(new Image(Main_Server.class.getResourceAsStream( "../Img/logo.png" )));
-			primaryStage.setTitle("Bla Bla Chat");
+			primaryStage.setTitle("Easy Chat");
 			primaryStage.setResizable(false);
 			primaryStage.sizeToScene();
 			primaryStage.show();
