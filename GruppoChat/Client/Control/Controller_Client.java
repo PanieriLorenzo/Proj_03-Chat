@@ -112,6 +112,8 @@ public class Controller_Client implements Initializable {
     Color coloreUtente = Color.web("#D41800");
     String room = null;
 	
+    boolean provaCambioRoom = true;
+    boolean running = true;
     //ATTRIBUTI THREAD:
     Service<Void> service;
     
@@ -119,32 +121,7 @@ public class Controller_Client implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//HANDSHAKE:
 		System.out.println("Handshake...");
-		try {
-			IPAddress = InetAddress.getByName("localhost");
-			//SPEDIZIONE
-			System.out.println("TRY> Spedizione...");
-			clientSocket = new DatagramSocket();
-			System.out.println("TRY> Variabili inizializzate, porta: " + clientSocket.getPort());
-			String message = "HAND";
-			System.out.println("TRY> Generato messaggio: " + message);
-			clientSocket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, IPAddress, SERVER_PORT));
-			System.out.println("TRY> Inviato messaggio a " + IPAddress.getHostAddress() + ":" + SERVER_PORT);
-			System.out.println("TRY> Spedizione completata!");
-			//RICEZIONE
-			System.out.println("TRY> Ricezione...");
-			DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
-			System.out.println("TRY> Creato receivePacket");
-			clientSocket.receive(receivePacket);
-			System.out.println("TRY> ricevuto il pacchetto");
-			receiveMSG = new String(receivePacket.getData(), 0, receivePacket.getLength()).split(" ");
-			System.out.println("TRY> ricevuto messaggio: " + new String(receivePacket.getData(), 0, receivePacket.getLength()));
-			System.out.println("TRY> Ricezione completata!");
-			clientSocket.close();
-			System.out.println("TRY> Socket chiuso");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		handShake();
 		
 		//INIT GRAFICA:
 		for(int i=1; i<receiveMSG.length; i++) {
@@ -180,7 +157,7 @@ public class Controller_Client implements Initializable {
 	            return new Task<Void>() {
 	                @Override
 	                protected Void call() throws Exception {
-	                	boolean running = true;
+	                	//boolean running = true;
 	                	System.out.println("Thread_Server avviato");
 						byte[] receiveBuffer = new byte[1024];
 						DatagramPacket receivePacket;
@@ -188,6 +165,7 @@ public class Controller_Client implements Initializable {
 						System.out.println("Variabili inizializzate");
 						
 						try{
+							provaCambioRoom = false;
 							DatagramSocket clientSocket = new DatagramSocket(clientPort-20000);
 							System.out.println("TRY> clientSocket creato on porta: " + (clientPort-20000));
 							while(running){
@@ -237,7 +215,8 @@ public class Controller_Client implements Initializable {
 										suona(1);
 									}
 								}else if(receiveRawMSG[0].trim().equals("EXIT")) {								
-									running = false;
+									//running = false;
+
 								}else{
 									System.out.println("Errore: Header messaggio errato/corrotto");
 									throw new Exception();
@@ -249,7 +228,7 @@ public class Controller_Client implements Initializable {
 							System.out.println("ERRORE: Thread_Client");
 							e.printStackTrace();
 						}
-						System.exit(0);
+						//System.exit(0);
 						return null;
 	                }
 	            };
@@ -313,7 +292,14 @@ public class Controller_Client implements Initializable {
 			}
 		}
 		if(ok && okStanza) {
-			service.start();
+			running = true;
+			if(provaCambioRoom) {
+				System.out.println("Nuovo");
+				service.start();
+			}else {
+				System.out.println("Vecchio");
+				service.restart();
+			}
 			
 			tabChat.setDisable(false);
 			tabPane.getSelectionModel().select(1);
@@ -413,22 +399,51 @@ public class Controller_Client implements Initializable {
 	}
 	
 	public void clickEsci() {
+
 		if(room == null) {
-			System.exit(0);
+			Alert alert = new Alert(AlertType.ERROR, "Non sei ancora in nessuna stanza!" , ButtonType.OK);
+			alert.showAndWait();
 		}else {
 			try {
+				running = false;
 				clientSocket = new DatagramSocket(clientPort);
 				String message = "MESG " + room + " " + nick + " " + "#000000" + " " + "/exit";
 				clientSocket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, IPAddress, SERVER_PORT));
 				clientSocket.close();
+				service.wait();
 			}catch (Exception e) {
 				
 			}
 		}
-/*		tabWelcome.setDisable(false);
+		handShake();
+		cmbChat.getItems().clear();
+		for(int i=1; i<receiveMSG.length; i++) {
+			cmbChat.getItems().add(receiveMSG[i]);
+		}
+		cmbChat.getItems().add("CREA STANZA");
+		cmbChat.getSelectionModel().selectFirst();
+		room = null;
+		tabWelcome.setDisable(false);
 		tabChat.setDisable(true);
 		tabPane.getSelectionModel().select(0);
-		list.getItems().clear();*/
+		list.getItems().clear();
+	}
+	
+	public void clickEsciTutto() {
+		if(room == null) {
+			System.exit(0);
+		}else {
+			try {
+				running = false;
+				clientSocket = new DatagramSocket(clientPort);
+				String message = "MESG " + room + " " + nick + " " + "#000000" + " " + "/exit";
+				clientSocket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, IPAddress, SERVER_PORT));
+				clientSocket.close();
+				System.exit(0);
+			}catch (Exception e) {
+				
+			}
+		}
 	}
 	
 	private void suona(int i) {
@@ -484,16 +499,47 @@ public class Controller_Client implements Initializable {
 	}
 	
 	public void cmbChatAction() {
-		if((((String)cmbChat.getSelectionModel().getSelectedItem()).equals("CREA STANZA"))) {
-			txtRoom.setVisible(true);
-			txtRoom.requestFocus();
-			System.out.println("crea stanza");
-			txtRoom.clear();
-			isCreate = true;
-		}else {
-			txtRoom.clear();
-			isCreate = false;
-			txtRoom.setVisible(false);
+		if(cmbChat.getSelectionModel().isEmpty() == false) {
+			if((((String)cmbChat.getSelectionModel().getSelectedItem()).equals("CREA STANZA"))) {
+				txtRoom.setVisible(true);
+				txtRoom.requestFocus();
+				System.out.println("crea stanza");
+				txtRoom.clear();
+				isCreate = true;
+			}else {
+				txtRoom.clear();
+				isCreate = false;
+				txtRoom.setVisible(false);
+			}
+		}
+	}
+	
+	private void handShake() {
+		try {
+			IPAddress = InetAddress.getByName("localhost");
+			//SPEDIZIONE
+			System.out.println("TRY> Spedizione...");
+			clientSocket = new DatagramSocket();
+			System.out.println("TRY> Variabili inizializzate, porta: " + clientSocket.getPort());
+			String message = "HAND";
+			System.out.println("TRY> Generato messaggio: " + message);
+			clientSocket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, IPAddress, SERVER_PORT));
+			System.out.println("TRY> Inviato messaggio a " + IPAddress.getHostAddress() + ":" + SERVER_PORT);
+			System.out.println("TRY> Spedizione completata!");
+			//RICEZIONE
+			System.out.println("TRY> Ricezione...");
+			DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
+			System.out.println("TRY> Creato receivePacket");
+			clientSocket.receive(receivePacket);
+			System.out.println("TRY> ricevuto il pacchetto");
+			receiveMSG = new String(receivePacket.getData(), 0, receivePacket.getLength()).split(" ");
+			System.out.println("TRY> ricevuto messaggio: " + new String(receivePacket.getData(), 0, receivePacket.getLength()));
+			System.out.println("TRY> Ricezione completata!");
+			clientSocket.close();
+			System.out.println("TRY> Socket chiuso");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
